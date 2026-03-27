@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Most Creators Never Make Real Money — And How To Fix It</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #222222;
+    --accent: #ff3c3c;
+    --accent2: #ff8c42;
+    --text: #f0f0f0;
+    --muted: #888888;
+    --green: #00e676;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(255,60,60,0.1);
+    border: 1px solid rgba(255,60,60,0.3);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+
+  p {
+    color: #cccccc;
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  /* PAIN LIST */
+  .pain-list {
+    list-style: none;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pain-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    font-size: 15px;
+    color: #cccccc;
+    font-weight: 300;
+  }
+
+  .pain-list li::before {
+    content: '↳';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* BLOCKER CARDS */
+  .blockers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 560px) {
+    .blockers { grid-template-columns: 1fr; }
+  }
+
+  .blocker-card {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blocker-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .blocker-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .blocker-card p {
+    font-size: 14px;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  /* SOLUTION STEPS */
+  .solution-steps {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--accent);
+    min-width: 32px;
+    padding-top: 2px;
+  }
+
+  .step-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .step-content p {
+    font-size: 15px;
+    margin: 0;
+  }
+
+  /* MATH BOX */
+  .math-box {
+    margin-top: 28px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .math-box::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, rgba(255,60,60,0.08), transparent 70%);
+    border-radius: 50%;
+  }
+
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+
+  .math-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .math-label { color: var(--muted); }
+  .math-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .math-row.highlight .math-value {
+    color: var(--green);
+    font-size: 18px;
+  }
+
+  /* WHY MATTERS */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 560px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+
+  .why-card {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .why-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .why-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .why-card p {
+    font-size: 14px;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  /* HOW I HELP */
+  .help-list {
+    list-style: none;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .help-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: #cccccc;
+    font-weight: 300;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .help-check {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FORM SECTION */
+  .form-section {
+    padding: 60px 0 80px;
+    border-bottom: none;
+  }
+
+  .form-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .form-header {
+    padding: 32px 32px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+    margin-bottom: 0;
+  }
+
+  .form-header h2 {
+    font-size: clamp(20px, 3vw, 26px);
+    margin-bottom: 10px;
+  }
+
+  .form-header p {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  form {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, select, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #444;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  select option {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 520px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .submit-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn:hover {
+    background: #ff5555;
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .form-note {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: -8px;
+  }
+
+  /* SUCCESS STATE */
+  .success-msg {
+    display: none;
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .success-msg.show { display: block; }
+
+  .success-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  .success-msg h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--green);
+  }
+
+  .success-msg p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    margin: 32px 0;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .quote-block p {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* SCROLL ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero {
+    animation: fadeUp 0.8s ease forwards;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="tag">Free Gameplan</div>
+    <h1>Most creators with under 100K followers<br><span>never make real money.</span><br>Here's exactly why.</h1>
+    <p class="hero-sub">And more importantly — the exact system to fix it. Read this. Fill out the form at the bottom. Get your personalized monetization gameplan within 24 hours.</p>
+  </div>
+
+  <!-- SECTION 1: THE PROBLEM -->
+  <section>
+    <div class="section-number">01 — The Problem</div>
+    <h2>Your content is working.<br>Your system isn't.</h2>
+    <p>You're posting consistently. You're getting views. People are commenting, saving, sharing. Your audience trusts you. And yet your bank account doesn't reflect any of that.</p>
+    <p>This isn't a content problem. Most creators with under 100K followers are making one of these exact mistakes every single day:</p>
+
+    <ul class="pain-list">
+      <li>Sending warm leads to a Linktree or Stan Store — a menu that forces decisions and kills conversions before they even reach your offer</li>
+      <li>A Calendly link in bio asking cold followers to book a call with a stranger — most won't, they just leave</li>
+      <li>Low ticket products ($7, $27, $47) that make $400 a month from an audience worth $40,000</li>
+      <li>No community — people watch your content, love it, and disappear forever with nowhere to go deeper</li>
+      <li>No nurture system — leads come in through ManyChat or DMs and then hear nothing, go cold, and move on</li>
+    </ul>
+  </section>
+
+  <!-- SECTION 2: WHY THEY DON'T FIX IT -->
+  <section>
+    <div class="section-number">02 — Why It Stays Broken</div>
+    <h2>It's not laziness.<br>It's a different problem.</h2>
+    <p>Most creators know something is off. They feel it every time a post goes viral and the DMs go quiet after a day. They know they should be making more. But three things keep them stuck:</p>
+
+    <div class="blockers">
+      <div class="blocker-card">
+        <h3>No time to build it</h3>
+        <p>They're spending all their energy creating content. Building a funnel, community, or offer stack feels like a whole separate job.</p>
+      </div>
+      <div class="blocker-card">
+        <h3>Don't know where to start</h3>
+        <p>Landing page? Email sequence? Whop? Skool? ManyChat? The options are overwhelming and nobody has shown them the exact path.</p>
+      </div>
+      <div class="blocker-card">
+        <h3>Think they need more followers first</h3>
+        <p>The biggest lie in the creator space. You don't need 100K followers. You need 8 people to say yes to a $1,000 offer.</p>
+      </div>
+      <div class="blocker-card">
+        <h3>Tried something, it didn't work</h3>
+        <p>They set up a Gumroad page or a Calendly link and got nothing. So they concluded monetization doesn't work for them yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: THE SOLUTION -->
+  <section>
+    <div class="section-number">03 — The Solution</div>
+    <h2>One system.<br>Two paths.<br>Both work.</h2>
+    <p>The creators making $10K–$50K a month with under 100K followers aren't doing anything complicated. They have one of two things working for them — or both.</p>
+
+    <div class="solution-steps">
+      <div class="step">
+        <div class="step-num">PATH A</div>
+        <div class="step-content">
+          <h3>The High Ticket Launch</h3>
+          <p>Package what you already teach into a 4-week live coaching offer at $1,000+. Run a 14-day Instagram story sequence to your existing audience. You only need 8 people to say yes. That's $8,000 from followers you already have. No ads. No new content. No new followers needed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">PATH B</div>
+        <div class="step-content">
+          <h3>The Community Funnel</h3>
+          <p>Replace your Calendly or Linktree with a free Whop community. People enter for free, get real value, build trust over time, and upgrade to a paid VIP tier when they're ready. Recurring revenue that compounds every month instead of starting from zero. The highest ticket offer lives inside as an upsell for members who want the full transformation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"You don't need more followers. You need an offer worth buying and a system that makes it easy to buy."</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE MATH -->
+  <section>
+    <div class="section-number">04 — The Math</div>
+    <h2>What your audience<br>is actually worth right now.</h2>
+    <p>Here's the conservative version. Run your own numbers.</p>
+
+    <div class="math-box">
+      <div class="math-row">
+        <span class="math-label">Your followers</span>
+        <span class="math-value">10,000</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Engagement rate (3%)</span>
+        <span class="math-value">300 true fans</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">Buyers at 10% conversion</span>
+        <span class="math-value">30 people</span>
+      </div>
+      <div class="math-row">
+        <span class="math-label">At $1,000 per person</span>
+        <span class="math-value">$30,000</span>
+      </div>
+      <div class="math-row highlight">
+        <span class="math-label">New followers needed</span>
+        <span class="math-value">Zero</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: WHY IT MATTERS -->
+  <section>
+    <div class="section-number">05 — Why This Matters Now</div>
+    <h2>Every day without a system<br>is revenue you'll never get back.</h2>
+    <p>The warm leads visiting your profile today aren't coming back tomorrow. Most of them will find someone else who made it easier to buy. The trust you've spent months building has an expiry date if there's nothing to buy.</p>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3>Your audience is ready now</h3>
+        <p>The people already watching your content are the most qualified buyers you'll ever have. They trust you. They just have nowhere to go.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📉</div>
+        <h3>Algorithms change</h3>
+        <p>The reach you have today won't last forever. Building a community and email list means you own your audience regardless of what the platform does.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔁</div>
+        <h3>Compounding beats viral</h3>
+        <p>A community of 200 paying members compounds every month. One viral reel disappears in 48 hours. Systems beat spikes every time.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <h3>One system. Done once.</h3>
+        <p>You build it once. It works while you sleep, while you create, while you live. That's the entire point.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: HOW I HELP -->
+  <section>
+    <div class="section-number">06 — How I Help</div>
+    <h2>I build this for you.<br>Done with you. 14 days.</h2>
+    <p>I work directly with personal branding creators to install one of these two systems — or both — depending on what your audience and offer needs most. Here's exactly what that looks like:</p>
+
+    <ul class="help-list">
+      <li><span class="help-check">✓</span> Full funnel audit — I look at exactly where you're losing warm leads right now and what's costing you the most money</li>
+      <li><span class="help-check">✓</span> Custom landing page built on your domain — one person, one pain, one action. No Linktree. No Stan Store.</li>
+      <li><span class="help-check">✓</span> Authority-aligned lead magnet pulled from your existing expertise — something your audience actually wants</li>
+      <li><span class="help-check">✓</span> ManyChat automation setup — your comment keywords capture leads automatically instead of disappearing</li>
+      <li><span class="help-check">✓</span> Email nurture sequence — 3 to 5 emails that warm leads toward your paid offer without feeling salesy</li>
+      <li><span class="help-check">✓</span> Whop community build — free tier, VIP paid tier, full onboarding flow, launch strategy to fill it from your existing audience in week one</li>
+      <li><span class="help-check">✓</span> Done with you — I build it, you approve every step, you own it completely when we're done</li>
+    </ul>
+
+    <div class="quote-block">
+      <p>"First clients are free. I build your system at zero cost in exchange for a documented case study. Zero risk to you."</p>
+    </div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="form-section">
+    <div class="section-number">07 — Get Your Gameplan</div>
+    <h2>Fill this out.<br>Get your personalized monetization gameplan within 24 hours.</h2>
+    <p style="margin-bottom: 32px;">Tell me about your setup. I'll analyze your profile, identify your biggest leak, and send you a custom gameplan showing exactly which path to take and what to build first.</p>
+
+    <div class="form-box">
+      <div class="form-header">
+        <h2>Free Monetization Gameplan</h2>
+        <p>Takes 3 minutes. Completely free. No pitch. Just a real gameplan built for your specific situation.</p>
+      </div>
+
+      <form id="gamePlanForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label>Instagram Handle</label>
+            <input type="text" placeholder="@yourhandle" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Niche / What You Teach</label>
+          <input type="text" placeholder="e.g. personal branding, fitness coaching, AI tools..." required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Follower Count</label>
+            <select required>
+              <option value="" disabled selected>Select range</option>
+              <option>Under 5K</option>
+              <option>5K – 15K</option>
+              <option>15K – 40K</option>
+              <option>40K – 100K</option>
+              <option>100K+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Current Monthly Revenue</label>
+            <select required>
+              <option value="" disabled selected>Select range</option>
+              <option>$0 – nothing yet</option>
+              <option>$100 – $500</option>
+              <option>$500 – $2,000</option>
+              <option>$2,000 – $5,000</option>
+              <option>$5,000+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Do you have an offer right now?</label>
+          <select required>
+            <option value="" disabled selected>Select one</option>
+            <option>No offer yet</option>
+            <option>Low ticket only (under $200)</option>
+            <option>Mid ticket ($200 – $1,000)</option>
+            <option>High ticket ($1,000+)</option>
+            <option>Multiple offers</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>What's in your bio link right now?</label>
+          <select required>
+            <option value="" disabled selected>Select one</option>
+            <option>Linktree or similar</option>
+            <option>Calendly / booking link</option>
+            <option>Stan Store</option>
+            <option>Landing page</option>
+            <option>YouTube / external platform</option>
+            <option>Nothing / blank</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>What's your biggest challenge right now?</label>
+          <textarea placeholder="Tell me what's not working. Where do you feel stuck? What have you tried? Be specific — the more detail you give, the better your gameplan will be." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="where should I send the gameplan?" required />
+        </div>
+
+        <button type="submit" class="submit-btn">Send Me My Free Gameplan →</button>
+        <p class="form-note">No spam. No pitch. Just your gameplan sent within 24 hours.</p>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">✓</div>
+        <h3>You're in.</h3>
+        <p>Your gameplan is being built. Expect it in your inbox within 24 hours. Check your DMs too — I might have a quick question about your setup.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    Built for creators who are done leaving money on the table.
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Form submission
+  document.getElementById('gamePlanForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('successMsg').classList.add('show');
+    window.scrollTo({ top: document.getElementById('successMsg').offsetTop - 100, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
